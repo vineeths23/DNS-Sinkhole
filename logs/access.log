@@ -1,0 +1,68 @@
+2025-05-09 11:00:30,528 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:80
+ * Running on http://192.168.1.187:80
+2025-05-09 11:00:30,529 - [33mPress CTRL+C to quit[0m
+2025-05-09 15:42:51,161 - Access from 192.168.1.187 to malicious.com
+2025-05-09 15:42:51,222 - 192.168.1.187 - - [09/May/2025 15:42:51] "GET / HTTP/1.1" 200 -
+2025-05-09 15:42:51,395 - 192.168.1.187 - - [09/May/2025 15:42:51] "GET /static/style.css HTTP/1.1" 200 -
+2025-05-09 15:42:51,549 - 192.168.1.187 - - [09/May/2025 15:42:51] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-05-09 15:48:05,453 - Access from 192.168.1.104 to malicious.com
+2025-05-09 15:48:05,453 - 192.168.1.104 - - [09/May/2025 15:48:05] "GET / HTTP/1.1" 200 -
+2025-05-09 15:48:05,701 - 192.168.1.104 - - [09/May/2025 15:48:05] "GET /static/style.css HTTP/1.1" 200 -
+2025-05-09 15:48:05,861 - 192.168.1.104 - - [09/May/2025 15:48:05] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-05-09 15:50:47,926 - Access from 192.168.1.104 to malicious.com
+2025-05-09 15:50:47,927 - 192.168.1.104 - - [09/May/2025 15:50:47] "GET / HTTP/1.1" 200 -
+2025-05-09 15:52:18,642 - Access from 192.168.1.104 to malicious.com
+2025-05-09 15:52:18,643 - 192.168.1.104 - - [09/May/2025 15:52:18] "GET / HTTP/1.1" 200 -
+2025-05-09 15:52:18,721 - 192.168.1.104 - - [09/May/2025 15:52:18] "GET /static/style.css HTTP/1.1" 200 -
+2025-05-09 15:52:18,951 - 192.168.1.104 - - [09/May/2025 15:52:18] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-05-09 15:53:17,636 - Login attempt from 192.168.1.104 - Username: vineeth, Password: Vineeth@23
+2025-05-09 15:53:17,636 - 192.168.1.104 - - [09/May/2025 15:53:17] "POST /login HTTP/1.1" 200 -
+2025-05-09 15:57:14,059 - Access from 192.168.1.104 to malicious.com
+2025-05-09 15:57:14,060 - 192.168.1.104 - - [09/May/2025 15:57:14] "GET / HTTP/1.1" 200 -
+2025-05-09 15:57:14,224 - 192.168.1.104 - - [09/May/2025 15:57:14] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
+2025-05-09 15:57:58,956 - Login attempt from 192.168.1.104 - Username: pratheek, Password: pratheek18
+2025-05-09 15:57:58,957 - 192.168.1.104 - - [09/May/2025 15:57:58] "POST /login HTTP/1.1" 200 -
+2025-05-09 16:07:05,325 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:80
+ * Running on http://192.168.1.187:80
+2025-05-09 16:07:05,325 - [33mPress CTRL+C to quit[0m
+2025-05-09 16:07:18,659 - Access from 192.168.1.104 to malicious.com
+2025-05-09 16:07:18,663 - 192.168.1.104 - - [09/May/2025 16:07:18] "GET / HTTP/1.1" 200 -
+2025-05-09 16:07:18,769 - 192.168.1.104 - - [09/May/2025 16:07:18] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
+2025-05-09 16:07:43,647 - Login attempt from 192.168.1.104 - Username: Vineeth_S, Password: Secrete@123
+2025-05-09 16:07:43,647 - 192.168.1.104 - - [09/May/2025 16:07:43] "POST /login HTTP/1.1" 200 -
+2025-05-09 16:09:21,047 - Access from 192.168.1.104 to malicious.com
+2025-05-09 16:09:21,047 - 192.168.1.104 - - [09/May/2025 16:09:21] "GET / HTTP/1.1" 200 -
+2025-05-09 16:09:21,117 - 192.168.1.104 - - [09/May/2025 16:09:21] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
+2025-05-09 16:09:45,251 - Login attempt from 192.168.1.104 - Username: vineeth, Password: Vineeth23
+2025-05-09 16:09:45,251 - 192.168.1.104 - - [09/May/2025 16:09:45] "POST /login HTTP/1.1" 200 -
+2025-05-09 16:16:45,286 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:80
+ * Running on http://192.168.1.187:80
+2025-05-09 16:16:45,287 - [33mPress CTRL+C to quit[0m
+2025-05-09 16:17:12,385 - Access from 192.168.1.104 to malicious.com
+2025-05-09 16:17:12,391 - 192.168.1.104 - - [09/May/2025 16:17:12] "GET / HTTP/1.1" 200 -
+2025-05-09 16:17:12,695 - 192.168.1.104 - - [09/May/2025 16:17:12] "GET /static/style.css HTTP/1.1" 200 -
+2025-05-09 16:17:12,800 - 192.168.1.104 - - [09/May/2025 16:17:12] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-05-09 16:17:24,469 - Login attempt from 192.168.1.104 - Username: vineeth, Password: vineeth@23
+2025-05-09 16:17:24,469 - 192.168.1.104 - - [09/May/2025 16:17:24] "POST /login HTTP/1.1" 200 -
+2025-05-09 16:21:18,803 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:80
+ * Running on http://192.168.1.187:80
+2025-05-09 16:21:18,803 - [33mPress CTRL+C to quit[0m
+2025-05-09 16:25:49,142 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:80
+ * Running on http://192.168.1.187:80
+2025-05-09 16:25:49,142 - [33mPress CTRL+C to quit[0m
+2025-05-09 16:26:08,808 - Access from 192.168.1.104 to malicious.com
+2025-05-09 16:26:08,814 - 192.168.1.104 - - [09/May/2025 16:26:08] "GET / HTTP/1.1" 200 -
+2025-05-09 16:26:08,941 - 192.168.1.104 - - [09/May/2025 16:26:08] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
+2025-05-09 16:26:09,072 - 192.168.1.104 - - [09/May/2025 16:26:09] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-05-09 16:26:21,581 - Login attempt from 192.168.1.104 - Username: vineeth, Password: vineeth
+2025-05-09 16:26:21,581 - 192.168.1.104 - - [09/May/2025 16:26:21] "POST /login HTTP/1.1" 200 -
