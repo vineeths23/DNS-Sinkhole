@@ -1,138 +1,271 @@
-DNS Sinkhole and Honeypot Project
-This project demonstrates a DNS sinkhole integrated with a honeypot to detect and log malicious activity. The DNS sinkhole, running on Kali Linux (192.168.153.136), uses dnschef to redirect queries for malicious.com to a Windows-based honeypot (192.168.153.15). The honeypot, built with Flask, serves a fake login page and logs access attempts and submitted credentials.
-Project Structure
+# DNS Sinkhole and Honeypot Project
+
+This project demonstrates DNS spoofing by redirecting queries for a malicious domain to a honeypot web server. It integrates a DNS sinkhole (using `dnschef`) with a Flask-based honeypot. The honeypot simulates a fake login page and logs all access attempts and submitted credentials for analysis.
+
+---
+
+## Objective
+
+Demonstrate how DNS spoofing can redirect malicious traffic to a controlled honeypot environment for monitoring and logging.
+
+---
+
+## Components
+
+- **Kali Linux:**
+  - Hosts the DNS sinkhole using `dnschef`
+  - Spoofs a chosen domain (e.g., `malicious.com`) to the honeypot server
+
+- **Windows:**
+  - Runs a Flask web server (`honeypot/`)
+  - Hosts a fake login page
+  - Logs access attempts and submitted credentials in `logs/honeypot.log`
+
+---
+
+## Technologies
+
+- **Kali Linux:** `dnschef`, terminal-based configuration
+- **Windows:** Python 3, Flask, HTML/CSS, managed with VS Code
+
+---
+
+## Repository Structure
+
+```
 honeypot/
 ├── app.py              # Flask application for the honeypot
 ├── templates/
-│   └── index.html      # HTML for the fake login page
+│   └── index.html      # Fake login page HTML
 ├── static/
-│   └── style.css       # CSS for styling the login page
+│   └── style.css       # CSS for login page styling
 ├── logs/
 │   └── honeypot.log    # Log file for access and credentials
-├── requirements.txt     # Python dependencies
-└── README.md           # This file
+├── requirements.txt    # Python dependencies (Flask)
+└── README.md           # Project documentation
+```
 
+---
 
-Kali Linux (DNS Sinkhole): Configured via terminal using dnschef to spoof malicious.com to 192.168.153.15.
-Windows (Honeypot): Flask app hosted in VS Code, running on 192.168.153.15, logging to logs/honeypot.log.
+## Prerequisites
 
-Prerequisites
+### Kali Linux
 
-Kali Linux (192.168.153.136):
-Kali Linux (VM or live USB, 2 vCPUs, 4GB RAM recommended).
-dnschef installed (sudo apt install dnschef).
-Network connectivity to 192.168.153.15.
+- Kali Linux system (VM, live USB, or installed; 2 vCPUs, 4GB RAM recommended)
+- `dnschef` package
+- Network connectivity to the honeypot machine
 
+### Windows
 
-Windows (192.168.153.15):
-Python 3 (python.org).
-VS Code (code.visualstudio.com).
-Network connectivity to 192.168.153.136.
+- Python 3
+- Visual Studio Code
+- Network connectivity to the sinkhole machine
 
+### Network
 
-Network: Both systems on the 192.168.153.0/24 subnet, with firewalls allowing port 53 (Kali, DNS) and port 80 (Windows, HTTP).
+- Both systems on the same subnet
+- Firewalls allow:
+  - Port 53 (Kali, DNS)
+  - Port 80 (Windows, HTTP)
 
-Setup Instructions
-Kali Linux (DNS Sinkhole)
+---
 
-Set IP address:
-sudo ip addr add 192.168.153.136/24 dev eth0
-sudo ip route add default via 192.168.153.1
+## Setup Instructions
 
+### 1. Kali Linux - DNS Sinkhole Setup
 
-Install dnschef:
+#### Set IP Address
+
+```sh
+ip addr show
+sudo ip addr add <kali-ip>/24 dev eth0
+sudo ip route add default via <gateway-ip>
+```
+
+#### Install dnschef
+
+```sh
 sudo apt update
 sudo apt install dnschef
+dnschef --version
+```
 
+#### Configure DNS Resolver
 
-Configure DNS resolver:
+```sh
 sudo cp /etc/resolv.conf /etc/resolv.conf.bak
 echo 'nameserver 127.0.0.1' | sudo tee /etc/resolv.conf
+```
 
+#### Disable NetworkManager DNS
 
-Disable NetworkManager DNS:
-sudo nano /etc/NetworkManager/NetworkManager.conf
-
-Add:
+Edit `/etc/NetworkManager/NetworkManager.conf` and add:
+```
 [main]
 dns=none
-
-Save and restart:
+```
+Then restart:
+```sh
 sudo systemctl restart NetworkManager
+```
 
+#### Allow DNS Traffic
 
-Allow DNS traffic:
+```sh
 sudo ufw allow 53
 sudo ufw reload
+```
 
+#### Check and Free Port 53
 
-Check and free port 53:
+```sh
 sudo netstat -tulnp | grep :53
 sudo kill -9 $(sudo lsof -t -i:53)
 sudo systemctl stop systemd-resolved
 sudo systemctl disable systemd-resolved
+```
 
+#### Start dnschef
 
-Start dnschef:
-sudo dnschef --fakeip=192.168.153.15 --fakedomains=malicious.com --nameservers=8.8.8.8 --interface=0.0.0.0
+```sh
+sudo dnschef --fakeip=<honeypot-ip> --fakedomains=malicious.com --nameservers=8.8.8.8 --interface=0.0.0.0
+```
 
+**Expected Output:**
+```
+[*] DNSChef started on interface: 0.0.0.0
+[*] Using the following nameservers: 8.8.8.8
+[*] Cooking A replies to: <honeypot-ip> for: malicious.com
+```
 
-Test DNS:
-nslookup malicious.com  # Should return 192.168.153.15
-nslookup google.com    # Should resolve normally
+---
 
+### 2. Windows - Honeypot Setup
 
+#### Set IP Address
 
-Windows (Honeypot)
+In Command Prompt (as administrator):
+```sh
+ipconfig
+netsh interface ip set address name="Ethernet" static <honeypot-ip> 255.255.255.0 <gateway-ip>
+```
 
-Set IP address:
-netsh interface ip set address name="Ethernet" static 192.168.153.15 255.255.255.0 192.168.153.1
+#### Clone Repository
 
-
-Clone or download the repository:
+```sh
 git clone <your-github-repo-url>
 cd honeypot
+```
 
+#### Install Dependencies
 
-Install dependencies:
+```sh
 pip install -r requirements.txt
+```
 
+#### Configure Firewall
 
-Allow HTTP traffic:Run in PowerShell (as administrator):
+In PowerShell (as administrator):
+
+```sh
 New-NetFirewallRule -DisplayName "Allow HTTP Port 80" -Direction Inbound -Protocol TCP -LocalPort 80 -Action Allow
+```
 
+#### Run Honeypot
 
-Run the honeypot:Run in Command Prompt (as administrator):
+In Command Prompt (as administrator):
+
+```sh
 python app.py
+```
 
+- Visit `http://<honeypot-ip>` in your browser to verify.
 
-Test locally:Open a browser and navigate to http://192.168.153.15 to verify the login page.
+---
 
+## Testing the Project
 
-Testing the Project
+### Verify DNS Spoofing (Kali Linux)
 
-On Kali Linux, open Firefox and navigate to http://malicious.com.
-The browser should load the fake login page served by the Windows honeypot.
-Enter test credentials (e.g., username: demo, password: pass123) and submit.
-On Windows, check logs/honeypot.log for entries like:2025-05-10 10:00:00 - Access from IP: 192.168.153.136, User-Agent: Mozilla/5.0...
-2025-05-10 10:01:00 - Credentials submitted - IP: 192.168.153.136, Username: demo, Password: pass123
+```sh
+nslookup malicious.com
+# Expected: Address: <honeypot-ip>
 
+nslookup google.com
+# Expected: Valid Google IPs
+```
 
+### Test Honeypot Integration
 
-Demo Instructions
+- On Kali Linux: Open a browser and visit `http://malicious.com`
+- Enter test credentials (e.g., username: `demo`, password: `pass123`) and submit
+- On Windows: Check `logs/honeypot.log` for entries like:
 
-Windows: Open VS Code, show app.py and index.html, run python app.py to start the honeypot.
-Kali Linux:
-In Terminal 1, run dnschef (see above).
-In Terminal 2, show nslookup malicious.com (returns 192.168.153.15).
-Open Firefox, navigate to http://malicious.com, submit credentials.
+```
+[Timestamp] - Access from IP: <source-ip>, User-Agent: ...
+[Timestamp] - Credentials submitted - IP: <source-ip>, Username: demo, Password: pass123
+```
 
+---
 
-Windows: Open logs/honeypot.log to show logged access and credentials.
+## Demo Instructions
 
-Notes
+### Windows
 
-Ensure both systems are on the same network (192.168.153.0/24).
-If Kali Linux fails to boot, use a Kali live USB and repeat the setup.
-The honeypot requires administrative privileges to bind to port 80.
-For GitHub, ensure .gitignore includes logs/ and __pycache__/.
+- Open VS Code, show `app.py` (logging code) and `templates/index.html` (login page)
+- Run `python app.py` in Command Prompt (as administrator)
+
+### Kali Linux
+
+- Terminal 1: Run `dnschef` as above
+- Terminal 2: Run `nslookup malicious.com` to show sinkhole redirection
+- Open browser, visit `http://malicious.com`, submit credentials
+
+### Windows
+
+- Open `logs/honeypot.log` in VS Code to display logged data
+
+---
+
+## Troubleshooting
+
+### dnschef Fails
+
+```sh
+sudo netstat -tulnp | grep :53
+sudo kill -9 $(sudo lsof -t -i:53)
+```
+
+### Honeypot Inaccessible
+
+```sh
+netstat -ano | findstr :80
+```
+
+Check firewall:
+```sh
+Get-NetFirewallRule -DisplayName "Allow HTTP Port 80"
+```
+
+### Network Issues
+
+```sh
+ping <honeypot-ip>  # From Kali
+ping <sinkhole-ip>  # From Windows
+```
+
+---
+
+## Notes
+
+- Run `dnschef` and `app.py` with administrative privileges.
+- Use a Kali live USB if boot issues persist.
+- Add `logs/` and `__pycache__/` to `.gitignore`.
+- Project tested on Kali Linux 2024.x and Windows 10/11.
+- Do not disclose real IP addresses in documentation or demos.
+
+---
+
+## License
+
+This project is for educational purposes and is not licensed for commercial use.
