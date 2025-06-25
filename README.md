@@ -1,4 +1,4 @@
-# DNS Sinkhole and Honeypot Project
+# SINKPOT (DNS Sinkhole and Honeypot Project)
 
 This project demonstrates DNS spoofing by redirecting queries for a malicious domain to a honeypot web server. It integrates a DNS sinkhole (using `dnschef`) with a Flask-based honeypot. The honeypot simulates a fake login page and logs all access attempts and submitted credentials for analysis.
 
